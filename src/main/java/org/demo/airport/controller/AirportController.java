@@ -1,15 +1,14 @@
 package org.demo.airport.controller;
 
-import org.demo.airport.dataload.DetailsService;
-import org.demo.airport.model.Runways;
+import org.demo.airport.impl.AirportsServiceImpl;
+import org.demo.airport.impl.CountryAirportRunwayDetailsServiceImpl;
 import org.demo.airport.util.Constant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -20,7 +19,10 @@ import java.util.Map;
 public class AirportController {
 
     @Autowired
-    DetailsService countryAirportRunwayDetailsService;
+    CountryAirportRunwayDetailsServiceImpl countryAirportRunwayDetailsServiceImpl;
+
+    @Autowired
+    AirportsServiceImpl airportDetailsServiceImpl;
 
 
     @GetMapping("/apiCheck")
@@ -32,23 +34,26 @@ public class AirportController {
     @GetMapping("/topNCountries/{topN}")
     public ResponseEntity<List<String>> getTopNCountries(@PathVariable("topN") Integer topN) {
 
-        List<String> topCountries = countryAirportRunwayDetailsService.getTopCountriesWithHighestAirport(topN);
+        List<String> topCountries = countryAirportRunwayDetailsServiceImpl.getTopCountriesWithHighestAirport(topN);
         return new ResponseEntity<>(topCountries, HttpStatus.OK);
     }
 
-    //Get Runways Based On Country
-    @GetMapping("/runways/{country}")
-    public ResponseEntity<Map<String, List<Runways>>> getRunwaysForCountryAirport(@PathVariable("country") @Size(min = 2)
-                                                      @Pattern(regexp = "^[a-zA-Z]+$") String country) {
 
-        Map<String, List<Runways>> mapForRunwaysForGivenAirportRef =
-                countryAirportRunwayDetailsService.getRunwaysOfAirportBasedOnCountry(country.toUpperCase());
-        return new ResponseEntity<>(mapForRunwaysForGivenAirportRef, HttpStatus.OK);
-    }
     @GetMapping("/count")
-    public ResponseEntity<Map<String,Integer>> getCountriesAirportCount() {
+    public ResponseEntity<Map<String, Integer>> getCountriesAirportCount() {
 
-        Map<String,Integer> topCountries = countryAirportRunwayDetailsService.getCountriesAirportsCount();
+        Map<String, Integer> topCountries = countryAirportRunwayDetailsServiceImpl.getCountriesAirportsCount();
         return new ResponseEntity<>(topCountries, HttpStatus.OK);
+    }
+
+    //Insert new Airport
+    @PostMapping("/addNew")
+    public ResponseEntity<String> addNewAirport(@RequestBody String newAirportRecord) throws IOException {
+        String[] record = newAirportRecord.split(",");
+        String status = airportDetailsServiceImpl.addAirportRecord(record);
+        if (status.equalsIgnoreCase(Constant.SUCCESS)) {
+            return new ResponseEntity<>("New Airport record inserted.", HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 }

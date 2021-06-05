@@ -1,14 +1,12 @@
 package org.demo.airport.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
+@Builder
 public class Runways {
     private String id;
     private String airport_ref;

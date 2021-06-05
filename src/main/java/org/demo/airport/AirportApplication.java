@@ -4,9 +4,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class AirportAssessmentApplication {
+public class AirportApplication {
     public static void main(String[] args) {
-        SpringApplication.run(AirportAssessmentApplication.class, args);
+        SpringApplication.run(AirportApplication.class, args);
     }
 
 

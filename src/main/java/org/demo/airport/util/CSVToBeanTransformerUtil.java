@@ -4,8 +4,6 @@ import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
 import com.opencsv.bean.ColumnPositionMappingStrategy;
 import com.opencsv.bean.CsvToBean;
-
-
 import org.demo.airport.exception.ProcessException;
 import org.demo.airport.model.Airports;
 import org.demo.airport.model.Countries;
@@ -17,7 +15,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.List;
-
 
 import static org.demo.airport.util.Constant.*;
 
@@ -39,10 +36,8 @@ public class CSVToBeanTransformerUtil {
     @Value("${resource.output.path.runwaysAirport}")
      String runwaysAirport;
 
-
     private CSVToBeanTransformerUtil() {
     }
-
 
     public String getCSVFilePath(String fileName) {
         String path;
@@ -64,7 +59,7 @@ public class CSVToBeanTransformerUtil {
 
                 break;
             case RUNWAYS_FOR_COUNTRY_AIRPORTS:
-                path =runwaysAirport;
+                path = runwaysAirport;
 
                 break;
             default:
@@ -74,9 +69,7 @@ public class CSVToBeanTransformerUtil {
     }
 
     private  CSVReader readFromCSVFile(String fileName) {
-
         String path = getCSVFilePath(fileName);
-
         try {
             return new CSVReaderBuilder(new FileReader(new File(path)))
                     .withSkipLines(1)
@@ -114,10 +107,7 @@ public class CSVToBeanTransformerUtil {
         csvBeanCountries.setCsvReader(readFromCSVFile(COUNTRIES_CSV));
         csvBeanCountries.setMappingStrategy(cpmsCountries);
         return csvBeanCountries.parse();
-
     }
-
-
 }
 
 
