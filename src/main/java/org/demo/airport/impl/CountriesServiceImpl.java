@@ -1,7 +1,8 @@
-package org.demo.airport.dataload;
+package org.demo.airport.impl;
 
 import com.opencsv.CSVWriter;
 import org.demo.airport.exception.ProcessException;
+import org.demo.airport.service.CountriesService;
 import org.demo.airport.util.Constant;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -10,7 +11,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 @Service
-public class CountryDetailsService {
+public class CountriesServiceImpl implements CountriesService {
     @Value("${resource.csv.path.countries}")
     String csvCountriesPath;
 

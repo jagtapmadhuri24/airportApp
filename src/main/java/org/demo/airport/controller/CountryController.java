@@ -1,6 +1,6 @@
 package org.demo.airport.controller;
 
-import org.demo.airport.dataload.CountryDetailsService;
+import org.demo.airport.impl.CountriesServiceImpl;
 import org.demo.airport.util.Constant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,14 +17,15 @@ import java.io.IOException;
 public class CountryController {
 
     @Autowired
-    CountryDetailsService countryDetailsService;
+    CountriesServiceImpl countriesServiceImpl;
 
     //Insert new Country
     @PostMapping("/addNew")
     public ResponseEntity<String> addNewCountry(@RequestBody String newCountryRecord) throws IOException {
         String[] record = newCountryRecord.split(",");
-        String status = countryDetailsService.addCountryRecord(record);
-        if (status.equalsIgnoreCase(Constant.SUCCESS)) {
+        String status = countriesServiceImpl.addCountryRecord(record);
+        if (Constant.SUCCESS
+                .equalsIgnoreCase(status)) {
             return new ResponseEntity<>("New Country record inserted.", HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
